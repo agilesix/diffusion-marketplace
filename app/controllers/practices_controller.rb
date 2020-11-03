@@ -356,6 +356,13 @@ class PracticesController < ApplicationController
     end
   end
 
+  def delete_marker_html_fragments
+    Rails.cache.redis.keys.each do |k, v|
+      fragment_name = k.split('/').pop
+      Rails.cache.delete(k) if fragment_name == 'map_marker_html' || fragment_name == 'marker_info_window_html'
+    end
+  end
+
   def create_or_update_diffusion_history
     # set attributes for later use
     facility_id = params[:facility_id]
@@ -411,6 +418,7 @@ class PracticesController < ApplicationController
       if params[:diffusion_history_id].blank? && params[:exists].blank?
         params[:created] = true
       end
+      delete_marker_html_fragments
       params[:reload] = true
       format.js
     end
@@ -419,6 +427,7 @@ class PracticesController < ApplicationController
   def destroy_diffusion_history
     dh = DiffusionHistory.find(params[:diffusion_history_id])
     dh.destroy
+    delete_marker_html_fragments
     respond_to do |format|
       format.html { redirect_to practice_adoptions_path(dh.practice), notice: 'Adoption entry was successfully deleted.' }
       format.json { head :no_content }

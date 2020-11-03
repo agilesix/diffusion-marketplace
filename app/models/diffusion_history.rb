@@ -15,7 +15,7 @@ class DiffusionHistory < ApplicationRecord
   end
 
   def clear_map_histories_on_save
-    if self.facility_id_changed?
+    if self.changed?
       self.reset_map_histories_cache = true
     end
   end
@@ -35,5 +35,4 @@ class DiffusionHistory < ApplicationRecord
       DiffusionHistory.all.reject { |dh| !dh.practice.published }
     end
   end
-
 end

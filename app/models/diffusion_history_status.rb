@@ -31,7 +31,7 @@ class DiffusionHistoryStatus < ApplicationRecord
 
   def self.map_statuses_by_history(dh)
     # debugger
-    Rails.cache.fetch('map_history_statuses_by_history') do
+    Rails.cache.fetch("history_#{dh.id}_status") do
       DiffusionHistoryStatus.order(id: :desc).where(diffusion_history_id: dh.id)
     end
   end

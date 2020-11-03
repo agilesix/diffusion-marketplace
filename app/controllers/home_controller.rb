@@ -31,11 +31,24 @@ class HomeController < ApplicationController
       completed = 0
       in_progress = 0
       unsuccessful = 0
+      uncached_array = []
       dhg[1].each do |dh|
         dh_status = dh.diffusion_history_statuses.order(id: :desc).first
+        # dh_status = @diffusion_history_statuses.select { |dhs| dhs.diffusion_history == dh }
+        uncached_array.push(dh_status)
+        debugger
+        # This works => dh_status = DiffusionHistoryStatus.order(id: :desc).where(diffusion_history_id: dh.id).first
+        # debugger
+        # Why doesn't this work?
+        # dh_status = DiffusionHistoryStatus.map_statuses_by_history(dh).first
+        # debugger
         in_progress += 1 if dh_status.status == 'In progress' || dh_status.status ==  'Planning' || dh_status.status == 'Implementing'
         completed += 1 if dh_status.status == 'Completed' || dh_status.status ==  'Implemented' || dh_status.status == 'Complete'
         unsuccessful += 1 if dh_status.status == 'Unsuccessful'
+      end
+      debugger
+      Rails.cache.fetch('hello') do
+        uncached_array
       end
       practices = dhg[1].map(&:practice)
       marker.json({

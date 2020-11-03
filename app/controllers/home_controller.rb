@@ -9,7 +9,9 @@ class HomeController < ApplicationController
   def diffusion_map
     @vamc_facilities = facilities_json
 
-    @diffused_practices = DiffusionHistory.all.reject { |dh| !dh.practice.published }
+    @diffused_practices = DiffusionHistory.map_histories
+
+    @diffusion_history_statuses = DiffusionHistoryStatus.map_history_statuses
 
     @diffusion_histories = Gmaps4rails.build_markers(@diffused_practices.group_by(&:facility_id)) do |dhg, marker|
 

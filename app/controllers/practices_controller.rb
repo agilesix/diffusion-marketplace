@@ -358,9 +358,10 @@ class PracticesController < ApplicationController
 
   def delete_marker_html_fragments
     Rails.cache.redis.keys.each do |k, v|
-      fragment_name = k.split('/').pop
-      Rails.cache.delete(k) if fragment_name == 'map_marker_html' || fragment_name == 'marker_info_window_html'
+      Rails.cache.delete(k) if k == 'views/map_marker_html' || k == 'views/marker_info_window_html'
     end
+    # expire_fragment('views/map_marker_html')
+    # expire_fragment('views/marker_info_window_html')
   end
 
   def create_or_update_diffusion_history

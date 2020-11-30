@@ -46,6 +46,11 @@ describe 'Page Builder', type: :feature do
     fill_in 'Title', with: 'Hello world!'
     fill_in 'Description', with: 'This is the first page built.'
     select 'programming', from: 'page[page_group_id]'
+    # add a page component
+    click_link 'Add New Page component'
+    select('Heading 2', :from => 'page_page_components_attributes_0_component_type')
+    fill_in('page_page_components_attributes_0_component_attributes_subtopic_title', with: 'test')
+    fill_in('page_page_components_attributes_0_component_attributes_subtopic_description', with: 'test')
 
     # bottom create page button
     find('input[name="commit_1"]').click
@@ -55,6 +60,12 @@ describe 'Page Builder', type: :feature do
     expect(page).to have_content('Hello world!')
     expect(page).to have_content('This is the first page built.')
     expect(page).to have_content('/programming/hello-world')
+    expect(page).to have_content('Heading 2')
+    expect(page).to have_content('test', count: 2)
+
+    # publish the page
+    click_link 'Publish Page'
+    expect(page).to have_content('Page published')
 
     # TODO: Figure out how to prevent database cleaning after opening new tab
     # click_link '/programming/hello-world'

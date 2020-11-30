@@ -190,7 +190,7 @@ describe 'The admin dashboard', type: :feature do
     expect(page).to have_no_content('COVID')
   end
 
-  it 'should be able to view and update departments' do
+  it 'should be able to view, update, and delete departments' do
     login_as(@admin, scope: :user, run_callbacks: false)
     visit '/admin'
 
@@ -209,6 +209,12 @@ describe 'The admin dashboard', type: :feature do
     click_button('Update Department')
     expect(page).to have_current_path(admin_department_path(Department.last))
     expect(page).to have_content('Revised Department')
+
+    # delete existing department
+    click_link('Delete Department')
+    page.accept_confirm
+
+    expect(page).to have_content('Department was successfully deleted.')
   end
 
   it 'should be able to view and update Practice partner' do

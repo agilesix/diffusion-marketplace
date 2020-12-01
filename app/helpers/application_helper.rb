@@ -41,45 +41,6 @@ module ApplicationHelper
     %Q{<div class="video-container"><iframe title="YouTube video player" width="700" height="405" src="https://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe></div>}.html_safe
   end
 
-  def cost_aggregate_description(aggregate)
-    case aggregate
-    when 2
-      return '$10,000-$50,000'
-    when 3
-      return '$50,000-$250,000'
-    when 4
-      return 'More than $250,000'
-    else
-      return '$0-$10,000'
-    end
-  end
-
-  def complexity_aggregate_description(aggregate)
-    case
-    when aggregate == 2
-      return 'Some complexity to implement'
-    when aggregate == 3
-      return 'Significant complexity to implement'
-    when aggregate >= 4
-      return 'High or large complexity to implement'
-    else
-      return 'Little to no complexity to implement'
-    end
-  end
-
-  def level_aggregate_style(aggregate)
-    case aggregate
-    when 2
-      return 'medium'
-    when 3
-      return 'medium-high'
-    when 4
-      return 'high'
-    else
-      return ''
-    end
-  end
-
   def facility_name(facility_id, facilities_data = nil)
     facilities_data = facilities_data || @facilities_data || facilities_data_json
     facility_data = @facility_data || facilities_data.find {|f| f['StationNumber'] == facility_id }

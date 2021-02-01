@@ -131,6 +131,35 @@
         });
     }
 
+    function openAdoptionStatusModal(status) {
+        $(document).on('click', `.${status}-modal-icon`, (e) => {
+            // Click accordion button to close content because when the icon is clicked, so is the button
+            $(e.target).parent().click();
+
+            $(`.${status}-status-modal-container`).removeClass('display-none');
+        });
+    }
+
+    function closeAdoptionStatusModal(status) {
+        $(document).on('click', `#close_${status}_status_modal`, () => {
+            $(`.${status}-modal-icon`).parent().focus();
+            $(`.${status}-status-modal-container`).addClass('display-none');
+        });
+    }
+
+    function toggleAdoptionStatusModal() {
+        let adoptionStatuses = [
+            'successful',
+            'unsuccessful',
+            'in-progress'
+        ];
+
+        adoptionStatuses.forEach(status => {
+            openAdoptionStatusModal(status);
+            closeAdoptionStatusModal(status);
+        });
+    }
+
     function executePracticeCommentsFunctions() {
         highlightSidebarSectionWhenInView();
         setUpShowMoreOrLessButtons();
@@ -138,6 +167,7 @@
         createWidthForImageCaption();
         expandCommentTextArea();
         expandReplyTextArea();
+        toggleAdoptionStatusModal();
     }
 
     $document.on('turbolinks:load', executePracticeCommentsFunctions);

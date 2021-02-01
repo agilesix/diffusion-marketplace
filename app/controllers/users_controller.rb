@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   before_action :require_admin, only: %i[index update destroy re_enable]
   before_action :require_user_or_admin, only: %i[update]
   before_action :final_admin, only: :update
-  before_action :require_user, only: :recommended_for_you
 
   def index
     redirect_to root_path
@@ -117,7 +116,7 @@ class UsersController < ApplicationController
       )
 
       # Practices based on the user's location
-      @practices = Practice.searchable_practices
+      @practices = Practice.searchable_practices 'a_to_z'
       @facilities_data = facilities_json
       @offices_data = origin_data_json
       @user_location_practices = []
@@ -132,6 +131,8 @@ class UsersController < ApplicationController
         # TODO: In the future, if user-locations are recorded as VISNs or Offices, we need to add them here. As of 11/7/2020, we are only using facilities.
       end
       @user_location_practices
+    else
+      redirect_to new_user_session_path
     end
 
     respond_to do |format|

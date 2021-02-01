@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post '/accept_terms', action: 'accept_terms', controller: 'users', as: 'accept_terms'
 
   resources :practices, except: :index do
+    get '/edit/metrics', action: 'metrics', as: 'metrics'
     get '/edit/instructions', action: 'instructions', as: 'instructions'
     get '/edit/introduction', action: 'introduction', as: 'introduction'
     get '/edit/implementation', action: 'implementation', as: 'implementation'
@@ -66,6 +67,8 @@ Rails.application.routes.draw do
   get 'practices/planning_checklist' => 'practices#planning_checklist'
   get 'pii_phi_information' => 'home#pii_phi_information'
   get '/search' => 'practices#search'
+  get '/explore' => 'practices#explore'
+  post '/explore' => 'practices#explore_practices'
 
   get '/users/:id' => 'users#show'
   get '/edit-profile' => 'users#edit_profile'

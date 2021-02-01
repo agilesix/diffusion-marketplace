@@ -97,16 +97,15 @@ describe 'Breadcrumbs', type: :feature do
         expect(page).to have_content('Home')
         expect(page).to have_content('The Best Practice Ever!')
         expect(page).to have_content('Edit')
-        expect(page).to have_content('Introduction')
       end
 
-      find_all('.usa-sidenav__item')[4].click
+      find_all('.usa-sidenav__item')[0].click
 
       within(:css, '#breadcrumbs') do
         expect(page).to have_content('Home')
         expect(page).to have_content('The Best Practice Ever!')
         expect(page).to have_content('Edit')
-        expect(page).to have_content('Implementation')
+        expect(page).to have_content('Metrics')
       end
     end
   end
@@ -123,7 +122,7 @@ describe 'Breadcrumbs', type: :feature do
         expect(page).to have_content('Home')
         expect(page).to have_content('Search')
       end
-      click_on('The Best Practice Ever!')
+      click_on('Go to The Best Practice Ever!')
       # TODO: why is this timing out?
       # expect(page).to be_accessible.according_to :wcag2a, :section508
       within(:css, '#breadcrumbs') do

@@ -31,6 +31,16 @@ $theme-breadcrumb-min-width: 'mobile';
   box-sizing: border-box;
 }
 
+.grid-container {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media screen and (min-width: 1024px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
 /****************************************
   BUTTONS
 *****************************************/
@@ -338,4 +348,12 @@ p {
 
 .usa-breadcrumb__list-item:not(:last-child)::after {
   background: asset_url('angle-arrow-right.svg') no-repeat center / 0.84375ex 1.35ex !important;
+}
+
+.usa-header + main {
+  border-top: 0 !important;
+}
+
+.usa-input {
+  max-width: unset !important;
 }

@@ -62,6 +62,10 @@ module NavigationHelper
         session[:breadcrumbs] << {'display': 'Practices', 'path': '/practices'}
       end
 
+      if action == 'explore'
+        empty_breadcrumbs
+      end
+
       search_breadcrumb = session[:breadcrumbs].find { |bc| bc['display'] == 'Search' || bc[:display] == 'Search' } || nil
       url = URI::parse(request.referer || '')
 
@@ -115,6 +119,11 @@ module NavigationHelper
       # Instructions breadcrumbs
       if action == 'instructions'
         reset_editor_breadcrumbs(practice_by_practice_id)
+      end
+
+      if action == 'metrics'
+        reset_editor_breadcrumbs(practice_by_practice_id)
+        session[:breadcrumbs] << { 'display': 'Metrics', 'path': practice_metrics_path(practice_by_practice_id) }
       end
 
       # Introduction breadcrumbs
@@ -243,9 +252,9 @@ module NavigationHelper
         session[:breadcrumbs] << { 'display': 'Edit', 'path': edit_profile_path } if current_user.present?
       end
 
-      if action == 'relevant_to_you'
+      if action == 'recommended_for_you'
         empty_breadcrumbs
-        session[:breadcrumbs] << { 'display': 'Relevant to you', 'path': relevant_to_you_path } if current_user.present?
+        session[:breadcrumbs] << { 'display': 'Recommended for you', 'path': recommended_for_you_path } if current_user.present?
       end
     end
 

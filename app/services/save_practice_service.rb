@@ -54,6 +54,11 @@ class SavePracticeService
       rescue_method(:update_practice_awards)
       rescue_method(:update_category_practices)
       rescue_method(:crop_resource_images)
+      if updated
+        practice = Practice.find_by_id(@practice.id)
+        practice.practice_pages_updated = DateTime.now()
+        practice.save()
+      end
       updated
     rescue => e
         Rails.logger.error "save_practice error: #{e.message}"
@@ -157,6 +162,7 @@ class SavePracticeService
           practice_category_practices.find_or_create_by(category_id: key.to_i)
         end
       end
+      
       other_cat_id = Category.find_by(name: 'Other').id
 
       if cat_keys.include?(other_cat_id.to_s)

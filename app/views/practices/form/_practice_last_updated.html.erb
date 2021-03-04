@@ -1,9 +1,9 @@
 <% session = PracticeEditorSession.where(practice_id: @practice.id).where.not(session_end_time: nil).last %>
 <% if session.present? %>
   <div class="margin-y-2">
-    <div class="text-base">
-      Practice last updated on
-      <%= get_local_date_and_time(session.session_end_time) %> by <%= session_username(session) %>
-    </div>
+    <p class="text-base">
+      <span>Practice last updated on</span>
+      <%= get_local_date_and_time(session.session_end_time) %><span> by </span><span><%= session_username(session) %></span>
+    </p>
   </div>
 <% end %>
